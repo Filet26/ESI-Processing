@@ -176,6 +176,7 @@ def populate_stats():
         + "&end_timestamp="
         + now,
         headers=headers,
+        timeout=10,
     )
     logger.info("Number of events from power usage: %s", len(power_usage_data.json()))
 
@@ -193,6 +194,7 @@ def populate_stats():
         + "&end_timestamp="
         + now,
         headers=headers,
+        timeout=10,
     )
     logger.info("Number of events from temperature: %s", len(temperature_data.json()))
 
