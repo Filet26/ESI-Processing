@@ -176,7 +176,6 @@ def populate_stats():
         + "&end_timestamp="
         + now,
         headers=headers,
-        timeout=10,
     )
     logger.info("Number of events from power usage: %s", len(power_usage_data.json()))
 
@@ -194,7 +193,6 @@ def populate_stats():
         + "&end_timestamp="
         + now,
         headers=headers,
-        timeout=10,
     )
     logger.info("Number of events from temperature: %s", len(temperature_data.json()))
 
@@ -222,14 +220,18 @@ def get_healthcheck():
 
 # app config
 app = connexion.FlaskApp(__name__, specification_dir="./")
-app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
-CORS(app.app)
-app.app.config["CORS_HEADERS"] = "Content-Type"
+app.add_api(
+    "openapi.yaml",
+    base_path="/processing",
+    strict_validation=True,
+    validate_responses=True,
+)
+
+if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
+    CORS(app.app)
+    app.app.config["CORS_HEADERS"] = "Content-Type"
 
 
 if __name__ == "__main__":
     init_scheduler()
     app.run(port=8100)
-
-
-# hehe
