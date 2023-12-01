@@ -130,6 +130,7 @@ def write_to_file(power_usage_data, temperature_data, now):
 
 def populate_stats():
     logger.info("Start Periodic Processing")
+    logger.info("test")
     #  read current stats from data.json, create if not exist
     try:
         with open(app_config["datastore"]["filename"], "r+") as f:
